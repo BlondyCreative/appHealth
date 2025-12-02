@@ -1,36 +1,36 @@
 
 <?php
-$conexion = new mysqli("localhost", "root", "", "init");
+$conexion = new mysqli("containers.railway.app", "railway", "DXeiVDXThGfNeGydBzTZvCIjUKtnNOgB", "railway", 3306);
 
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-$usuario = $_POST['usuario'];
-$contraseña = $_POST['contraseña'];
+$username = $_POST['username'];
+$password = $_POST['password'];
 
-$stmt = $conexion->prepare("SELECT contraseña FROM usuarios WHERE usuario = ?");
-$stmt->bind_param("s", $usuario);
+$stmt = $conexion->prepare("SELECT password FROM users WHERE username = ?");
+$stmt->bind_param("s", $username);
 $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
-    $stmt->bind_result($contraseñaGuardada);
+    $stmt->bind_result($passwordSave);
     $stmt->fetch();
 
-    if ($contraseña === $contraseñaGuardada) {
+    if ($password === $passwordSave) {
 
        session_start();
-        $_SESSION['usuario'] = $usuario;
+        $_SESSION['username'] = $username;
         
         header("Location: home.php");
         exit();
         // header("Location: dashboard.php");
     } else {
-        echo "<h3>⚠️ Contraseña incorrecta</h3>";
+        echo "<h3>⚠️ Password incorrecta</h3>";
     }
 } else {
-    echo "<h3>⚠️ Usuario no encontrado</h3>";
+    echo "<h3>⚠️ User not fund </h3>";
 }
 
 $stmt->close();

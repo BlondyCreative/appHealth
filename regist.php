@@ -1,24 +1,24 @@
 
 <?php
-$conexion = new mysqli("localhost", "root", "", "init");
+$conexion = new mysqli("containers.railway.app", "railway", "DXeiVDXThGfNeGydBzTZvCIjUKtnNOgB", "railway", 3306);
 
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-$usuario = $_POST['usuario'];
-$contraseña = $_POST['contraseña'];
+$username = $_POST['username'];
+$password = $_POST['password'];
 
-$verificar = $conexion->prepare("SELECT id FROM usuarios WHERE usuario = ?");
-$verificar->bind_param("s", $usuario);
+$verificar = $conexion->prepare("SELECT id FROM users WHERE username = ?");
+$verificar->bind_param("s", $username);
 $verificar->execute();
 $verificar->store_result();
 
 if ($verificar->num_rows > 0) {
     echo "<h3>⚠️ El usuario ya está registrado</h3>";
 } else {
-    $stmt = $conexion->prepare("INSERT INTO usuarios (usuario, contraseña) VALUES (?, ?)");
-    $stmt->bind_param("ss", $usuario, $contraseña);
+    $stmt = $conexion->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+    $stmt->bind_param("ss", $username, $password);
     if ($stmt->execute()) {
         // Redirige sin usar echo
         header("Location: index.php");
