@@ -1,4 +1,5 @@
 
+
 <?php
 $conexion = new mysqli("containers.railway.app", "railway", "DXeiVDXThGfNeGydBzTZvCIjUKtnNOgB", "railway", 3306);
 
@@ -18,19 +19,19 @@ if ($stmt->num_rows > 0) {
     $stmt->bind_result($passwordSave);
     $stmt->fetch();
 
-    if ($password === $passwordSave) {
-
-       session_start();
+    // Verificar con password_verify
+    if (password_verify($password, $passwordSave)) {
+        session_start();
         $_SESSION['username'] = $username;
         
         header("Location: home.php");
         exit();
-        // header("Location: dashboard.php");
+        
     } else {
         echo "<h3>⚠️ Password incorrecta</h3>";
     }
 } else {
-    echo "<h3>⚠️ User not fund </h3>";
+    echo "<h3>⚠️ Usuario no encontrado</h3>";
 }
 
 $stmt->close();
