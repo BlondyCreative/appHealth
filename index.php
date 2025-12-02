@@ -14,7 +14,7 @@
 
           <h2 class="log">Sistema de Login</h2>
 
-          <form action="validation.php" method="post">
+          <form action="test.php" method="post">
             <div class="align-items-center">
       <label for="usuario" class="user">Usuario</label>
       <input type="text" id="usuario" name="usuario" placeholder="Ingrese su nombre" required />
